@@ -24,9 +24,19 @@
 // IN THE SOFTWARE.
 // ----------------------------------------------------------------------------
 
-#include "open3d/core/Device.h"
+#include <cmath>
+#include <limits>
 
+#include "open3d/core/AdvancedIndexing.h"
+#include "open3d/core/Dtype.h"
+#include "open3d/core/MemoryManager.h"
+#include "open3d/core/SizeVector.h"
+#include "open3d/core/Tensor.h"
+#include "open3d/core/kernel/Kernel.h"
+#include "open3d/utility/FileSystem.h"
+#include "open3d/utility/Helper.h"
 #include "tests/Tests.h"
+#include "tests/core/CoreTest.h"
 
 namespace open3d {
 namespace tests {
@@ -59,6 +69,23 @@ TEST(Device, StringConstructorLower) {
     core::Device ctx("cuda:1");
     EXPECT_EQ(ctx.GetType(), core::Device::DeviceType::CUDA);
     EXPECT_EQ(ctx.GetID(), 1);
+}
+
+TEST(TensorScalar, Sqrt) {
+    core::Device device = core::Device("CPU:0");
+    core::Tensor src = core::Tensor::Init<float>({4}, device);
+    core::Tensor dst = src.Sqrt();
+    std::vector<float> dst_vals = dst.ToFlatVector<float>();
+
+    utility::LogInfo("Q: {} == 2.0f?; A: {}", dst.Item<float>(),
+                     dst.Item<float>() == 2.0f);
+
+    std::cout.precision(17);
+    std::cout << "o3d sqrt: " << dst.Item<float>() << std::endl;
+
+    float a = 4.0f;
+    float b = std::sqrt(a);
+    std::cout << "direct sqrt: " << b << std::endl;
 }
 
 }  // namespace tests

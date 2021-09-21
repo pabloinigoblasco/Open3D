@@ -24,8 +24,10 @@
 // IN THE SOFTWARE.
 // ----------------------------------------------------------------------------
 
+#include <bitset>
 #include <cmath>
 #include <cstring>
+#include <iostream>
 
 #include "open3d/core/Dispatch.h"
 #include "open3d/core/Dtype.h"
@@ -63,10 +65,41 @@ static void CPUCopyObjectElementKernel(const void* src,
     memcpy(dst_bytes, src_bytes, object_byte_size);
 }
 
+static void PrintFloatMem(const std::string& name, float val) {
+    std::bitset<32> bits(val);
+    std::cout << name << ": " << bits << std::endl;
+}
+
 template <typename scalar_t>
 static void CPUSqrtElementKernel(const void* src, void* dst) {
+    // {
+    //     float src = 4.0f;
+    //     const void* src_buffer = &src;
+
+    //     const float src_val = *static_cast<const float*>(src_buffer);
+
+    //     std::cout.precision(10);
+    //     std::cout << "src_val: " << src_val << std::endl;
+    //     std::cout << "sqrt(src_val): " << std::sqrt(src_val) << std::endl;
+    // }
+
+    utility::LogInfo("//////////////////////////////");
+    utility::LogInfo("scala_t is float32: {}",
+                     std::is_same<scalar_t, float>::value);
+
+    std::cout.precision(17);
+    float src_val = *static_cast<const float*>(src);
+    float four_val = 4.0f;
+    std::cout << "src_val: " << src_val << std::endl;
+    std::cout << "four_val: " << four_val << std::endl;
+    PrintFloatMem("src_bits: ", src_val);
+    PrintFloatMem("dst_bits: ", four_val);
+    std::cout << "std::sqrt(src_val): " << std::sqrt(src_val) << std::endl;
+    std::cout << "std::sqrt(four_val): " << std::sqrt(four_val) << std::endl;
+
     *static_cast<scalar_t*>(dst) = static_cast<scalar_t>(
             std::sqrt(*static_cast<const scalar_t*>(src)));
+    utility::LogInfo("//////////////////////////////");
 }
 
 template <typename scalar_t>
@@ -240,6 +273,8 @@ void UnaryEWCPU(const Tensor& src, Tensor& dst, UnaryEWOpCode op_code) {
     } else {
         Indexer indexer({src}, dst, DtypePolicy::ALL_SAME);
         DISPATCH_DTYPE_TO_TEMPLATE(src_dtype, [&]() {
+            utility::LogInfo("src_dtype: {}", src_dtype.ToString());
+            utility::LogInfo("dst_dtype: {}", dst_dtype.ToString());
             switch (op_code) {
                 case UnaryEWOpCode::Sqrt:
                     assert_dtype_is_float(src_dtype);
