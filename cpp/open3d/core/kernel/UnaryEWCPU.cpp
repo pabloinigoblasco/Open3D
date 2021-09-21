@@ -65,41 +65,35 @@ static void CPUCopyObjectElementKernel(const void* src,
     memcpy(dst_bytes, src_bytes, object_byte_size);
 }
 
-static void PrintFloatMem(const std::string& name, float val) {
+static void PrintFloatMem(const std::string& name, const float val) {
     std::bitset<32> bits(val);
-    std::cout << name << ": " << bits << std::endl;
+    std::cout << name << " bits: " << bits << std::endl;
 }
 
 template <typename scalar_t>
 static void CPUSqrtElementKernel(const void* src, void* dst) {
-    // {
-    //     float src = 4.0f;
-    //     const void* src_buffer = &src;
-
-    //     const float src_val = *static_cast<const float*>(src_buffer);
-
-    //     std::cout.precision(10);
-    //     std::cout << "src_val: " << src_val << std::endl;
-    //     std::cout << "sqrt(src_val): " << std::sqrt(src_val) << std::endl;
-    // }
-
-    utility::LogInfo("//////////////////////////////");
     utility::LogInfo("scala_t is float32: {}",
                      std::is_same<scalar_t, float>::value);
+
+    utility::LogInfo("//////////////////////////////////////////////////////");
 
     std::cout.precision(17);
     float src_val = *static_cast<const float*>(src);
     float four_val = 4.0f;
+
     std::cout << "src_val: " << src_val << std::endl;
     std::cout << "four_val: " << four_val << std::endl;
-    PrintFloatMem("src_bits: ", src_val);
-    PrintFloatMem("dst_bits: ", four_val);
+
+    PrintFloatMem("src", src_val);
+    PrintFloatMem("four", four_val);
+
     std::cout << "std::sqrt(src_val): " << std::sqrt(src_val) << std::endl;
     std::cout << "std::sqrt(four_val): " << std::sqrt(four_val) << std::endl;
 
+    utility::LogInfo("//////////////////////////////////////////////////////");
+
     *static_cast<scalar_t*>(dst) = static_cast<scalar_t>(
             std::sqrt(*static_cast<const scalar_t*>(src)));
-    utility::LogInfo("//////////////////////////////");
 }
 
 template <typename scalar_t>
