@@ -1,0 +1,43 @@
+> -cl-fast-relaxed-math          OpenCL only. Sets -cl-finite-math-only and -cl-unsafe-math-optimizations, and defines __FAST_RELAXED_MATH__.
+
+> -cl-finite-math-only           OpenCL only. Allow floating-point optimizations that assume arguments and results are not NaNs or +-Inf.
+
+> -cl-unsafe-math-optimizations  OpenCL only. Allow unsafe floating-point optimizations.  Also implies -cl-no-signed-zeros  and -cl-mad-enable.
+
+> -device-math-lib=<value>       Control the addition of device math libraries when compiling for other devices. Valid arguments are fp64, fp32
+
+> -ffast-math                    Allow aggressive, lossy floating-point optimizations
+
+> -ffinite-math-only
+
+> -ffp-contract=<value>          Form fused FP ops (e.g. FMAs): fast (fuses across statements disregarding pragmas) | on (only fuses in the same statement unless dictated by pragmas) | off (never fuses) | fast-honor-pragmas (fuses across statements unless diectated by pragmas). Default is 'fast' for CUDA, 'fast-honor-pragmas' for HIP, and 'on' otherwise.
+
+> -fhonor-nan-compares           Honor NaN compares with fast math
+
+> -fimf-absolute-error=<value>   Define the maximum allowable absolute error for math library function results
+
+> -fimf-arch-consistency=<value> Ensures that the math library functions produce consistent results across different implementations of the same architecture
+
+> -fimf-domain-exclusion=<value> Indicates the input arguments domain on which math functions must provide correct results.
+
+> -fimf-max-error=<value>        defines the maximum allowable relative error, measured in ulps, for math library function results
+
+> -fimf-precision=<value>        Defines the accuracy (precision) for math library functions.
+
+> -fmath-errno                   Require math functions to indicate errors by setting errno
+
+> -fno-fast-math
+
+> -fno-finite-math-only
+
+> -fno-honor-nan-compares        Do not honor NaN compares with fast math
+
+> -fno-math-errno
+
+> -fno-reciprocal-math
+
+> -freciprocal-math              Allow division operations to be reassociated
+
+> -menable-unsafe-fp-math        Allow unsafe floating-point math optimizations which may decrease precision
+
+> -qmkl=<value>                  Link commonly used Intel(R) Math Kernel Library (Intel(R) MKL) and bring in the associated headers (parallel,sequential,cluster)("cluster" is not supported in DPC++)
