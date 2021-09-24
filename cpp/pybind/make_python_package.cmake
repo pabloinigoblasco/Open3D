@@ -79,28 +79,45 @@ endif()
 
 # Build Jupyter plugin.
 if (BUILD_JUPYTER_EXTENSION)
-    if(WIN32 OR UNIX AND NOT LINUX_AARCH64)
+    if (WIN32 OR UNIX AND NOT LINUX_AARCH64)
         message(STATUS "Jupyter support is enabled, building Jupyter plugin now.")
     else()
         message(FATAL_ERROR "Jupyter plugin is not supported on ARM.")
     endif()
 
-    find_program(NPM npm)
-    if(NPM)
-        message(STATUS "NPM found at: ${NPM}")
+    find_program(NODE node)
+    if (NODE)
+        message(STATUS "node found at: ${NODE}")
     else()
-        message(FATAL_ERROR "npm not found. Please install Node.js and npm."
+        message(STATUS "node not found.")
+        message(FATAL_ERROR "Please properly install Node.js."
                             "Visit https://nodejs.org/en/download/package-manager/ for details."
                             "For ubuntu, we recommend getting the latest version of Node.js from"
                             "https://github.com/nodesource/distributions/blob/master/README.md#installation-instructions.")
     endif()
+    execute_process(COMMAND "${NODE}" --version
+                    OUTPUT_VARIABLE NODE_VERSION
+                    OUTPUT_STRIP_TRAILING_WHITESPACE)
+    if (NODE_VERSION VERSION_GREATER_EQUAL "v16.00.0")
+        message(STATUS "node version: ${NODE_VERSION}")
+    else()
+        message(FATAL_ERROR "node version is too old. Please upgrade to v16.00.0 or higher.")
+    endif()
 
     find_program(YARN yarn)
-    if(YARN)
-        message(STATUS "YARN found at: ${YARN}")
+    if (YARN)
+        message(STATUS "yarn found at: ${YARN}")
     else()
         message(FATAL_ERROR "yarn not found. You may install yarm globally by "
                             "npm install -g yarn.")
+    endif()
+    execute_process(COMMAND "${YARN}" --version
+                    OUTPUT_VARIABLE YARN_VERSION
+                    OUTPUT_STRIP_TRAILING_WHITESPACE)
+    if (YARN_VERSION VERSION_GREATER_EQUAL "1.20.0")
+        message(STATUS "yarn version: ${YARN_VERSION}")
+    else()
+        message(FATAL_ERROR "yarn version is too old. Please upgrade to 1.20.0 or higher.")
     endif()
 
     # Append requirements_jupyter.txt to requirements.txt
