@@ -1,0 +1,16 @@
+warning @jupyterlab/builder > @jupyterlab/buildutils > crypto@1.0.1:
+    This package is no longer supported. It's now a built-in Node module. If you've depended on crypto, you should switch to the one that's built-in.
+warning @jupyterlab/builder > @jupyterlab/buildutils > verdaccio > request@2.88.0:
+    request has been deprecated, see https://github.com/request/request/issues/3142
+warning @jupyterlab/builder > @jupyterlab/buildutils > verdaccio > @verdaccio/readme > jsdom > request@2.88.2:
+    request has been deprecated, see https://github.com/request/request/issues/3142
+warning @jupyterlab/builder > @jupyterlab/buildutils > verdaccio > request > har-validator@5.1.5:
+    this library is no longer supported
+warning @jupyterlab/builder > @jupyterlab/buildutils > verdaccio > @verdaccio/readme > jsdom > request > har-validator@5.1.5:
+    this library is no longer supported
+warning @jupyterlab/builder > @jupyterlab/buildutils > verdaccio > request > uuid@3.4.0:
+    Please upgrade  to version 7 or higher.  Older versions may use Math.random() in certain circumstances, which is known to be problematic.  See https://v8.dev/blog/math-random for details.
+warning @jupyterlab/builder > @jupyterlab/buildutils > verdaccio > @verdaccio/readme > jsdom > request > uuid@3.4.0:
+    Please upgrade  to version 7 or higher.  Older versions may use Math.random() in certain circumstances, which is known to be problematic.  See https://v8.dev/blog/math-random for details.
+warning @jupyterlab/builder > @jupyterlab/buildutils > verdaccio > @verdaccio/readme > jsdom > request-promise-native@1.0.9:
+    request-promise-native has been deprecated because it extends the now deprecated request package, see https://github.com/request/request/issues/3142
