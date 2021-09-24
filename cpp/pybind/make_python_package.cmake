@@ -90,7 +90,9 @@ if (BUILD_JUPYTER_EXTENSION)
         message(STATUS "NPM found at: ${NPM}")
     else()
         message(FATAL_ERROR "npm not found. Please install Node.js and npm."
-                            "Visit https://nodejs.org/en/download/package-manager/ for details.")
+                            "Visit https://nodejs.org/en/download/package-manager/ for details."
+                            "For ubuntu, we recommend getting the latest version of Node.js from"
+                            "https://github.com/nodesource/distributions/blob/master/README.md#installation-instructions.")
     endif()
 
     find_program(YARN yarn)
